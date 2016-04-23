@@ -1,0 +1,13 @@
+
+{% macro format_address(address) %}
+<address>
+    <strong>{{ address.name }}</strong><br>
+    {{ address.street }}, {{ address.extra.numero }}<br>
+    {% if address.street2 %}{{ address.street2 }}<br>{% endif %}  
+    {% if address.street3 %}{{ address.street3 }}<br>{% endif %}
+    {{ address.postal_code }}<br>
+    {% if address.extra.ponto_ref %}{{ address.extra.ponto_ref }}<br>{% endif %}
+    {{ address.city }}<br>
+    {{ address.region }}
+</address>
+{% endmacro %}
