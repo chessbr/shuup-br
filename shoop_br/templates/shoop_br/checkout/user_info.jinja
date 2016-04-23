@@ -1,0 +1,79 @@
+{% extends "shoop/front/checkout/_base.jinja" %}
+
+{% block content %}
+<form role="form" method="post" action="" id="addresses">
+    {% csrf_token %}
+    <div class="well">
+        <fieldset>
+            <div class="row">
+                <div class="order-for-company col-md-9 col-md-offset-3">
+                    <legend>{% trans %}Personal information{% endtrans %}</legend>
+                </div>
+            </div>
+
+            <div id="person_type" class="form-horizontal">
+                {{ bs3.field(taxpayer_form.type, layout="horizontal") }}
+
+                <div class="row">
+                    <div class="order-for-company col-md-9 col-md-offset-3">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+
+            <div id="company_info" class="form-horizontal">
+                {{ bs3.field(company_form.name, layout="horizontal") }}
+                {{ bs3.field(company_form.cnpj, layout="horizontal") }}
+                {{ bs3.field(company_form.ie, layout="horizontal") }}
+                {{ bs3.field(company_form.im, layout="horizontal") }}
+                {{ bs3.field(company_form.taxation, layout="horizontal") }}
+                {{ bs3.field(company_form.responsible, layout="horizontal") }}
+            </div>
+
+            <div id="person_info" class="form-horizontal">
+                {{ bs3.field(person_form.name, layout="horizontal") }}
+                {{ bs3.field(person_form.cpf, layout="horizontal", set_required=True) }}
+                {{ bs3.field(person_form.rg, layout="horizontal") }}
+                {{ bs3.field(person_form.birth_date, layout="horizontal") }}
+                {{ bs3.field(person_form.gender, layout="horizontal") }}
+            </div>
+        </fieldset>
+    </div>
+    <div class="clearfix">
+        <button type="submit" class="btn btn-primary btn-lg pull-right">
+            <i class="fa fa-check"></i> {% trans %}Continue{% endtrans %}
+        </button>
+    </div>
+</form>
+{% endblock %}
+
+{% block extrajs %}
+
+<script src="{{ STATIC_URL }}shoop_br/js/jquery.mask.min.js"></script>
+<script>
+    $(function(){
+        $("#{{ person_form.cpf.id_for_label }}").mask('000.000.000-00');
+        $("#{{ person_form.birth_date.id_for_label }}").mask('00/00/0000');
+
+        $("#{{ company_form.cnpj.id_for_label }}").mask('00.000.000/0000-00');
+    });
+
+    function showHideTaxpayerType(){
+        if($("#{{ taxpayer_form.type.id_for_label }}").val() == '{{ TaxpayerType.FISICA.value }}'){
+            $("#person_info").show();
+            $("#company_info").hide();
+        }else{
+            $("#person_info").hide();
+            $("#company_info").show();
+        }
+    }
+
+    $("#{{ taxpayer_form.type.id_for_label }}").change(function (){
+        showHideTaxpayerType();
+    });
+
+    $(document).ready(function (){
+        showHideTaxpayerType();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends "shoop/front/checkout/_base.jinja" %}
+
+{% block content %}
+<form role="form" method="post" action="" id="addresses">
+    {% set forms = form.forms %}
+    {% csrf_token %}
+    <div class="well">
+        <fieldset>
+            <div class="row">
+                <div class="order-for-company col-md-9 col-md-offset-3">
+                    <legend>{% trans %}Billing address{% endtrans %}</legend>
+                </div>
+            </div>
+            <div id="billing" class="form-horizontal">
+                {{ bs3.field(forms.billing.name, layout="horizontal") }}
+
+                {{ bs3.field(forms.billing.postal_code, layout="horizontal") }}
+                {{ bs3.field(forms.billing.street, layout="horizontal") }}
+                {{ bs3.field(forms.billing_extra.numero, layout="horizontal") }}
+                {{ bs3.field(forms.billing.street2, layout="horizontal") }}
+                {{ bs3.field(forms.billing.street3, layout="horizontal") }}
+                {{ bs3.field(forms.billing_extra.ponto_ref, layout="horizontal") }}
+                {{ bs3.field(forms.billing.city, layout="horizontal") }}
+                {{ bs3.field(forms.billing.region, layout="horizontal") }}
+
+                {{ bs3.field(forms.billing.phone, layout="horizontal") }}
+                {{ bs3.field(forms.billing_extra.cel, layout="horizontal") }}
+
+                {% for field in forms.billing.hidden_fields() %}
+                    {{ bs3.field(field, layout="horizontal") }}
+                {% endfor %}
+                {% for field in forms.billing_extra.hidden_fields() %}
+                    {{ bs3.field(field, layout="horizontal") }}
+                {% endfor %}
+            </div>
+        </fieldset>
+    </div>
+    <div class="well">
+        <fieldset>
+            <div class="row">
+                <div class="order-for-company col-md-9 col-md-offset-3">
+                    <legend>{% trans %}Shipping address{% endtrans %}</legend>
+                    <div class="custom-checkbox">
+                        <input type="checkbox" name="same_as_billing" id="same_as_billing" value="1"{% if request.POST.get("same_as_billing", true) and not processed_once %} checked{% endif %}>
+                        <label for="same_as_billing">{% trans %}Ship to my billing address{% endtrans %}</label>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div id="shipping" class="form-horizontal">
+                {{ bs3.field(forms.shipping.name, layout="horizontal") }}
+
+                {{ bs3.field(forms.shipping.postal_code, layout="horizontal") }}
+                {{ bs3.field(forms.shipping.street, layout="horizontal") }}
+                {{ bs3.field(forms.shipping_extra.numero, layout="horizontal") }}
+                {{ bs3.field(forms.shipping.street2, layout="horizontal") }}
+                {{ bs3.field(forms.shipping.street3, layout="horizontal") }}
+                {{ bs3.field(forms.shipping_extra.ponto_ref, layout="horizontal") }}
+                {{ bs3.field(forms.shipping.city, layout="horizontal") }}
+                {{ bs3.field(forms.shipping.region, layout="horizontal") }}
+
+                {{ bs3.field(forms.shipping.phone, layout="horizontal") }}
+                {{ bs3.field(forms.shipping_extra.cel, layout="horizontal") }}
+
+                {% for field in forms.shipping.hidden_fields() %}
+                    {{ bs3.field(field, layout="horizontal") }}
+                {% endfor %}
+                {% for field in forms.shipping.hidden_fields() %}
+                    {{ bs3.field(field, layout="horizontal") }}
+                {% endfor %}
+            </div>
+        </fieldset>
+    </div>
+    <div class="clearfix">
+        <button type="submit" class="btn btn-primary btn-lg pull-right">
+            <i class="fa fa-check"></i> {% trans %}Continue{% endtrans %}
+        </button>
+    </div>
+</form>
+{% endblock %}
+
+{% block extrajs %}
+<script src="{{ STATIC_URL }}shoop_br/js/jquery.mask.min.js"></script>
+<script>
+    $(function(){
+        $("#{{ form.forms.billing.phone.id_for_label }}").mask('(00)0000-00000', {selectOnFocus: true, placeholder:"(99)9999-99999"});
+        $("#{{ form.forms.shipping.phone.id_for_label }}").mask('(00)0000-00000', {selectOnFocus: true, placeholder:"(99)9999-99999"});
+
+        $("#{{ form.forms.billing_extra.cel.id_for_label }}").mask('(00)0000-00000', {selectOnFocus: true, placeholder:"(99)9999-99999"});
+        $("#{{ form.forms.shipping_extra.cel.id_for_label }}").mask('(00)0000-00000', {selectOnFocus: true, placeholder:"(99)9999-99999"});
+
+        $("#{{ form.forms.billing.postal_code.id_for_label }}").mask('00000-000', {selectOnFocus: true, placeholder:"00000-00"});
+        $("#{{ form.forms.shipping.postal_code.id_for_label }}").mask('00000-000', {selectOnFocus: true, placeholder:"00000-000"});
+
+        function activateCheckoutAddressCopy() {
+            var shouldCopyFields = false;
+
+            function toggleFieldDisability($field) {
+                $field.toggleClass("disabled", shouldCopyFields);
+            }
+
+            function toggleCopyFields() {
+                shouldCopyFields = $("#same_as_billing").is(":checked");
+                $("#shipping :input").each(function() {
+                    $(this).attr("readonly", shouldCopyFields);
+                    toggleFieldDisability($(this));
+                });
+
+                $("#id_shipping-country").attr("readonly", shouldCopyFields);
+
+                $target = $("#id_shipping-country");
+                toggleFieldDisability($target);
+                if(shouldCopyFields) {
+                    $("#billing :input").change();
+                }
+            }
+
+            function copyFieldValue() {
+                if(!shouldCopyFields)
+                    return;
+                var targetName = $(this).attr("id").split("-")[1];
+                var $target = $("#id_shipping-"+targetName);
+                $target.val($(this).val());
+
+                var $extra_target = $("#id_shipping_extra-"+targetName);
+                $extra_target.val($(this).val());
+            }
+
+            $("#id_shipping-country").attr("readonly", true);
+            toggleCopyFields();
+            $(document).on("input change", "#billing :input", copyFieldValue);
+            $("#same_as_billing").on("change", toggleCopyFields);
+        }
+        activateCheckoutAddressCopy();
+    });
+
+    $('#{{ form.forms.billing.postal_code.id_for_label }}').change(function (){
+        var cep = $(this).val();
+
+        $.getJSON("http://viacep.com.br/ws/" + cep + "/json/ ", function(data) {
+            setBillingAddressFromREST(data);
+
+            if($("#same_as_billing").prop("checked")){
+                setShippingAddressFromREST(data);
+            }
+        });
+    });
+
+    $('#{{ form.forms.shipping.postal_code.id_for_label }}').change(function (){
+        var cep = $(this).val();
+        $.getJSON("http://viacep.com.br/ws/" + cep + "/json/ ", function(data) {
+            setShippingAddressFromREST(data);
+        });
+    });
+
+    function setBillingAddressFromREST(data){
+        $('#{{ form.forms.billing.street.id_for_label }}').val(data.logradouro);
+        $('#{{ form.forms.billing.street3.id_for_label }}').val(data.bairro);
+        $('#{{ form.forms.billing.city.id_for_label }}').val(data.localidade);
+        $('#{{ form.forms.billing.region.id_for_label }}').val(data.uf.toUpperCase());
+    }
+
+    function setShippingAddressFromREST(data){
+        $('#{{ form.forms.shipping.street.id_for_label }}').val(data.logradouro);
+        $('#{{ form.forms.shipping.street3.id_for_label }}').val(data.bairro);
+        $('#{{ form.forms.shipping.city.id_for_label }}').val(data.localidade);
+        $('#{{ form.forms.shipping.region.id_for_label }}').val(data.uf.toUpperCase());
+    }
+
+</script>
+{% endblock %}
