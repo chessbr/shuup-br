@@ -1,0 +1,5 @@
+include README.md
+include LICENSE
+
+recursive-include shoop_br *.jinja
+recursive-include shoop_br *.js
