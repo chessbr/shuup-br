@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# This file is part of Shoop Correios.
+# This file is part of Shoop BR.
 #
 # Copyright (c) 2016, Rockho Team. All rights reserved.
 # Author: Christian Hess
@@ -187,7 +187,7 @@ class ExtraAddress(models.Model):
 
 class ExtraMutableAddress(ExtraAddress):
     """ Dados adicionais para modelos MutableAddress do Shoop """
-    address = models.OneToOneField(MutableAddress, related_name="extra")
+    address = models.OneToOneField(MutableAddress, related_name="extra", default=None)
 
     class Meta:
         verbose_name = _('Endereço mutável - Informação extra')
@@ -225,7 +225,7 @@ class ExtraMutableAddress(ExtraAddress):
 
 class ExtraImmutableAddress(ExtraAddress):
     """ Dados adicionais para modelos ImmutableAddres do Shoop """
-    address = models.OneToOneField(ImmutableAddress, related_name="extra")
+    address = models.OneToOneField(ImmutableAddress, related_name="extra", default=None)
 
     class Meta:
         verbose_name = _('Endereço imutável - Informação extra')
@@ -246,3 +246,4 @@ class ExtraImmutableAddress(ExtraAddress):
         """
         # Populate all known address fields even if not originally in `data`
         return cls(**data)
+
