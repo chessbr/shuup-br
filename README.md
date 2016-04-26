@@ -1,5 +1,5 @@
 # Shoop-BR
-A Shoop add-on for custom Brazilian e-commerce
+A Shoop add-on for custom Brazilian e-commerce.
 
 ## Installation (development)
 
