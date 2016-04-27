@@ -1,16 +1,20 @@
-# Shoop-BR
-A Shoop add-on for custom Brazilian e-commerce.
+Shoop-BR
+========
+A Shoop add-on for custom Brazilian e-commerces
 
-## Installation (development)
+This module adds the following features to your Shoop:
 
-1. Download the latest release as a zip and extract anywhere.
-2. Copy the `shoop_br` and `shoop_br_tests` folders and paste them into your Shoop root folder.
-3. Configure, test and run!
+* New customer/order address fields: *número*, *ponto de referência* and *celular*
+* Custom `AUTH_USER_MODEL` without `username` field (only `email` and `password` are used)
+* Additional information of brazilian customers like *CPF*, *RG*, *CNPJ*, *IE* (see [`models.py`](shoop_br/models.py) for more details)
+* Customized user registration view to consider the custom `AUTH_USER_MODEL` and the additional user information
+* Custom `AddressCheckoutPhase` to consider brazilian extra address`s fields
+* Custom `AddressCheckoutPhase` template that automatically fills the address fields from a brazilian postal code through [ViaCEP](http://viacep.com.br) webservices
+* Custom `BasketOrderCreator` to consider extra address informations
+* Custom `CheckoutView` that forces user registration before checking out
 
-PS: As the custom user model uses email as the `username` field, when you load Shoop mocks though `shoop_populate_mock` 
-management command, remember that the default login is now `USERNAME@shoop.local` (an email) to enter in the admin panel.  
-
-## Configuration
+Configuration
+=============
 
 1. In your `settings.py`:
 
@@ -24,7 +28,10 @@ management command, remember that the default login is now `USERNAME@shoop.local
     'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    
+    # Shoop BR
     'shoop_br',
+    
     # shoop themes
     'shoop.themes.classic_gray',
     # shoop
@@ -56,22 +63,16 @@ management command, remember that the default login is now `USERNAME@shoop.local
   ```
   and *vualá*.
 
-## Execution
-
-Migrate and run as usual and be happy! :)
-
-## Tests
+Tests
+=====
 
 TODO
 
-## Deployment
-
-TODO
-
-## Copyright
+Copyright
+=========
 Copyright (C) 2016 by [Rockho Team](https://github.com/rockho-team)
 
-## License
-
+License
+=======
 Shoop-BR is published under the GNU Affero General Public License,
 version 3 (AGPLv3). See the LICENSE file.
