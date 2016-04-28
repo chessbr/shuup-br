@@ -80,3 +80,4 @@ def test_cnpj():
     assert CNPJ.validate('01234567005073') == True
     assert CNPJ.validate('01234567068407') == True
     assert CNPJ.validate('01234567954199') == True
+

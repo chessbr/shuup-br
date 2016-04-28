@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/rockho-team/shoop-br.svg?branch=master)](https://travis-ci.org/rockho-team/shoop-br)
 Shoop-BR
 ========
 A Shoop add-on for custom Brazilian e-commerces
@@ -66,7 +67,7 @@ Configuration
 Tests
 =====
 
-TODO
+Create your virtualenv and install Shoop and all its requirements. After that, install `shoop-br` and run `py.test -v shoop_br_tests`.
 
 Copyright
 =========
