@@ -20,6 +20,8 @@ Configuration
 1. In your `settings.py`:
 
   1.1 Add `shoop_br` to the `INSTALLED_APPS` config before any Shoop module.
+  This is because *Shoop BR* overrides registration URLs as yoy can [see here](shoop_br/urls.py).
+
   ```
   INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
     # django
@@ -67,7 +69,8 @@ Configuration
 Tests
 =====
 
-Create your virtualenv and install Shoop and all its requirements. After that, install `shoop-br` and run `py.test -v shoop_br_tests`.
+Create your virtualenv and install Shoop and all its requirements. After that,
+install `shoop-br` and run `py.test shoop_br_tests`.
 
 Copyright
 =========

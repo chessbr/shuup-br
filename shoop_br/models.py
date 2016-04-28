@@ -7,6 +7,8 @@
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
 
+from __future__ import unicode_literals
+
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -21,7 +23,7 @@ from enumfields import Enum, EnumField
 
 from shoop_br.base import CPF, CNPJ
 from shoop.core.models._addresses import MutableAddress, ImmutableAddress
-from shoop.utils.models import get_data_dict
+from django.utils.encoding import force_text
 
 class PersonType(Enum):
     FISICA = 'PF'
@@ -153,7 +155,7 @@ class PersonInfo(models.Model):
         verbose_name_plural = _('Pessoas físicas')
 
     def __str__(self):
-        return "Pessoa física: {0}".format(self.name)
+        return "Pessoa fisica: {0}".format(self.name)
 
 class CompanyInfo(models.Model):
     """ Pessoa jurídica """
@@ -174,13 +176,26 @@ class CompanyInfo(models.Model):
         verbose_name_plural = _('Pessoas jurídicas')
 
     def __str__(self):
-        return "Pessoa jurídica: {0}".format(self.name)
+        return "Pessoa juridica: {0}".format(self.name)
 
 class ExtraAddress(models.Model):
     """ Dados adicionais para modelos Address do Shoop """
     numero = models.CharField(verbose_name=_("Número"), max_length=20)
     cel = models.CharField(verbose_name=_("Telefone celular"), max_length=40, blank=True, null=True)
     ponto_ref = models.CharField(verbose_name=_("Ponto de referência"), max_length=60, blank=True, null=True)
+
+    def as_string_list(self, locale=None):
+        base_lines = [
+            self.numero,
+            self.cel,
+            self.ponto_ref,
+        ]
+
+        stripped_lines = [force_text(line).strip() for line in base_lines if line]
+        return [s for s in stripped_lines if (s and len(s) > 1)]
+
+    def __iter__(self):
+        return iter(self.as_string_list())
 
     class Meta:
         abstract = True
@@ -194,8 +209,8 @@ class ExtraMutableAddress(ExtraAddress):
         verbose_name_plural = _('Endereços mutáveis - Informação extra')
 
     def __str__(self):
-        return "Informação extra do endereço mutável {0}".format(self.address)
-    
+        return "Extra mutable address information for {0}".format(getattr(self, 'address', None))
+
     def to_immutable(self):
         """
         Create saved ExtraImmutableAddress from self.
@@ -203,13 +218,11 @@ class ExtraMutableAddress(ExtraAddress):
         :rtype: ExtraImmutableAddress
         :return: Saved ExtraImmutableAddress with same data as self.
         """
-        data = get_data_dict(self)
-
-        # limpa a FK, se houver
-        if data.get('address'):
-            del(data['address'])
-
-        return ExtraImmutableAddress.from_data(data)
+        return ExtraImmutableAddress.from_data({
+            'numero': self.numero,
+            'cel': self.cel,
+            'ponto_ref': self.ponto_ref
+        })
 
     @classmethod
     def from_data(cls, data):
@@ -232,7 +245,7 @@ class ExtraImmutableAddress(ExtraAddress):
         verbose_name_plural = _('Endereços imutáveis - Informação extra')
 
     def __str__(self):
-        return "Informação extra do endereço imutável {0}".format(self.address)
+        return "Extra immutable address information for {0}".format(getattr(self, 'address', None))
 
     @classmethod
     def from_data(cls, data):
