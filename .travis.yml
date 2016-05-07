@@ -6,6 +6,6 @@ python:
 install:
 # install shoop's head
   - pip install -e git+https://github.com/shoopio/shoop.git#egg=shoop[everything]
-  - pip install .
+  - pip install -e .
 script:
-  - py.test -v shoop_br_tests
+  - py.test -vvv shoop_br_tests

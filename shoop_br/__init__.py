@@ -20,7 +20,7 @@ class ShoopBRAppConfig(shoop.apps.AppConfig):
     }
 
     provides = {
-        "front_urls": [
+        "front_urls_pre": [
             __name__ + ".urls:urlpatterns"
         ],
     }

@@ -16,7 +16,7 @@ from shoop.core.models._contacts import Gender
 from django.utils.functional import lazy
 from django.utils import formats
 from django.utils.timezone import now
-from _datetime import timedelta
+from datetime import timedelta
 
 def get_sample_datetime():
     return (now()-timedelta(days=365*30)).strftime(formats.get_format_lazy('DATE_INPUT_FORMATS')[0])

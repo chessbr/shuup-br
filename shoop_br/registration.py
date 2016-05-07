@@ -7,13 +7,15 @@
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
 
+from __future__ import absolute_import
+
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.utils.translation import ugettext_lazy as _
 
-from registration.backends.simple import views as simple_views
+from registration.views import RegistrationView
 from registration import signals
 from registration.forms import RegistrationFormUniqueEmail
 
@@ -41,10 +43,10 @@ class ShoopBRRegistrationForm(RegistrationFormUniqueEmail):
         return person_type
 
 def registration_complete(request):
-    messages.success(request, _("Registration complete. Welcome!"))
+    messages.success(request, _("Registration completed. Welcome!"))
     return redirect(settings.LOGIN_REDIRECT_URL)
 
-class RegistrationView(RegistrationViewMixin, simple_views.RegistrationView):
+class RegistrationView(RegistrationViewMixin, RegistrationView):
     """
     View para registro de usuário contendo mais de um Form.
     Retorna apenas os forms necessários.
@@ -53,18 +55,20 @@ class RegistrationView(RegistrationViewMixin, simple_views.RegistrationView):
     form_class = ShoopBRRegistrationForm
     template_name = "shoop_br/registration/register.jinja"
 
-    def register(self, request, form):
+    def register(self, form):
         new_user = form.save()
 
         # verifica se é uma pessoa fisica ou juridica e cria o registro
         # contendo os dados adicionais conforme o tipo da pessoa
         if new_user.person_type == PersonType.JURIDICA:
-            company_info_form = CompanyInfoForm(request.POST, prefix=PersonType.JURIDICA.value)
+            company_info_form = CompanyInfoForm(self.request.POST,
+                                                prefix=PersonType.JURIDICA.value)
             company_info = company_info_form.save(commit=False)
             company_info.user = new_user
             company_info.save()
         else:
-            person_info_form = PersonInfoForm(request.POST, prefix=PersonType.FISICA.value)
+            person_info_form = PersonInfoForm(self.request.POST,
+                                              prefix=PersonType.FISICA.value)
             person_info = person_info_form.save(commit=False)
             person_info.user = new_user
             person_info.save()
@@ -75,10 +79,10 @@ class RegistrationView(RegistrationViewMixin, simple_views.RegistrationView):
             password=form.cleaned_data['password1']
         )
 
-        login(request, new_user)
+        login(self.request, new_user)
         signals.user_registered.send(sender=self.__class__,
                                      user=new_user,
-                                     request=request)
+                                     request=self.request)
         return new_user
 
     def get(self, request, *args, **kwargs):
@@ -86,11 +90,9 @@ class RegistrationView(RegistrationViewMixin, simple_views.RegistrationView):
         person_info_form = PersonInfoForm(prefix=PersonType.FISICA.value)
         company_info_form = CompanyInfoForm(prefix=PersonType.JURIDICA.value)
 
-        # Pass request to get_form_class and get_form for per-request
-        # form control.
-        form_class = self.get_form_class(request)
+        form_class = self.get_form_class()
         form = self.get_form(form_class)
-        return self.render_to_response(self.get_context_data(form=form, 
+        return self.render_to_response(self.get_context_data(form=form,
                                                              person_info_form=person_info_form,
                                                              company_info_form=company_info_form))
 
@@ -98,9 +100,7 @@ class RegistrationView(RegistrationViewMixin, simple_views.RegistrationView):
         person_info_form = PersonInfoForm(request.POST, prefix=PersonType.FISICA.value)
         company_info_form = CompanyInfoForm(request.POST, prefix=PersonType.JURIDICA.value)
 
-        # Pass request to get_form_class and get_form for per-request
-        # form control.
-        form_class = self.get_form_class(request)
+        form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
             person_type = form.cleaned_data['person_type']
@@ -119,14 +119,15 @@ class RegistrationView(RegistrationViewMixin, simple_views.RegistrationView):
                 if not person_info_form.is_valid():
                     return self.form_invalid(form, person_info_form, company_info_form)
 
-            # Pass request to form_valid.
-            return self.form_valid(request, form)
+            return self.form_valid(form)
         else:
             # valida todos os forms na marra
             person_info_form.is_valid()
             company_info_form.is_valid()
 
-            return self.form_invalid(form, person_info_form, company_info_form)
+            return self.form_invalid(form,
+                                     person_info_form=person_info_form,
+                                     company_info_form=company_info_form)
 
     def form_invalid(self, form, person_info_form=None, company_info_form=None):
         return self.render_to_response(self.get_context_data(form=form,
@@ -147,5 +148,5 @@ class RegistrationView(RegistrationViewMixin, simple_views.RegistrationView):
 
         return super(RegistrationView, self).get_context_data(**kwargs)
 
-    def registration_allowed(self, request):
+    def registration_allowed(self):
         return True
