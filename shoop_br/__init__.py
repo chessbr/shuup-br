@@ -26,3 +26,5 @@ class ShoopBRAppConfig(shoop.apps.AppConfig):
     }
 
 default_app_config = __name__ + ".ShoopBRAppConfig"
+
+__version__ = "1.0.0"
