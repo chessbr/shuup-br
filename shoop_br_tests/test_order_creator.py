@@ -31,13 +31,6 @@ def test_invalid_source_line_updating():
 
 def test_codes_type_conversion():
     source = OrderSource(Shop())
-
-    assert source.codes == []
-
-    with pytest.raises(AttributeError):
-        source.codes = "test"
-    assert source.codes == []
-
     source.add_code("t")
     source.add_code("e")
     source.add_code("s")
