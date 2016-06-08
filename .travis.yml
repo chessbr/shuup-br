@@ -4,8 +4,11 @@ python:
   - "3.4"
   - "3.5"
 install:
+  - pip install -U pip
+  - pip install coveralls
 # install shoop's head
   - pip install -e git+https://github.com/shoopio/shoop.git#egg=shoop[everything]
   - pip install -e .
 script:
-  - py.test -vvv shoop_br_tests
+  - py.test -ra -vvv --cov-config .coveragerc --cov shoop_br shoop_br_tests
+after_success: coveralls
