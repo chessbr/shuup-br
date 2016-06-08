@@ -1,6 +1,9 @@
-[![Build Status](https://travis-ci.org/rockho-team/shoop-br.svg?branch=master)](https://travis-ci.org/rockho-team/shoop-br)
 Shoop-BR
 ========
+
+[![Build Status](https://travis-ci.org/rockho-team/shoop-br.svg?branch=master)](https://travis-ci.org/rockho-team/shoop-br)
+[![Coverage Status](https://coveralls.io/repos/github/rockho-team/shoop-br/badge.svg?branch=master)](https://coveralls.io/github/rockho-team/shoop-br?branch=master)
+
 A Shoop add-on for custom Brazilian e-commerces
 
 This module adds the following features to your Shoop:
