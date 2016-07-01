@@ -1,8 +1,9 @@
-Shoop-BR
-========
-
 [![Build Status](https://travis-ci.org/rockho-team/shoop-br.svg?branch=master)](https://travis-ci.org/rockho-team/shoop-br)
 [![Coverage Status](https://coveralls.io/repos/github/rockho-team/shoop-br/badge.svg?branch=master)](https://coveralls.io/github/rockho-team/shoop-br?branch=master)
+[![License](https://img.shields.io/badge/license-AGPLv3-blue.svg)](LICENSE)
+
+Shoop-BR
+========
 
 A Shoop add-on for custom Brazilian e-commerces
 
@@ -16,6 +17,11 @@ This module adds the following features to your Shoop:
 * Custom `AddressCheckoutPhase` template that automatically fills the address fields from a brazilian postal code through [ViaCEP](http://viacep.com.br) webservices
 * Custom `BasketOrderCreator` to consider extra address informations
 * Custom `CheckoutView` that forces user registration before checking out
+
+## Compatibility
+* Shuup v4.0.0
+* [Tested on Python 2.7, 3.4 and 3.5](https://travis-ci.org/rockho-team/shoop-br)
+
 
 Configuration
 =============
