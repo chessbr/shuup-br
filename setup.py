@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# This file is part of Shoop BR.
+# This file is part of Shuup BR.
 #
 # Copyright (c) 2016, Rockho Team. All rights reserved.
 # Author: Christian Hess
@@ -9,9 +9,9 @@
 
 import setuptools
 
-NAME = 'shoop-br'
+NAME = 'shuup-br'
 VERSION = '1.0.0'
-DESCRIPTION = 'A Shoop add-on for custom Brazilian e-commerce'
+DESCRIPTION = 'A Shuup add-on for custom Brazilian e-commerce'
 AUTHOR = 'Rockho Team'
 AUTHOR_EMAIL = 'rockho@rockho.com.br'
 URL = 'http://www.rockho.com.br/'
@@ -26,7 +26,7 @@ if __name__ == '__main__':
         author=AUTHOR,
         author_email=AUTHOR_EMAIL,
         license=LICENSE,
-        packages=["shoop_br"],
+        packages=["shuup_br"],
         include_package_data=True,
-        entry_points={"shoop.addon": "shoop_br=shoop_br"}
+        entry_points={"shuup.addon": "shuup_br=shuup_br"}
     )

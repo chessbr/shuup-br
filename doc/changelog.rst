@@ -1,4 +1,4 @@
-Shoop BR Change Log
+Shuup BR Change Log
 ===================
 
 Version 1.0.0
@@ -6,4 +6,4 @@ Version 1.0.0
 
 Released on 2016-05-09
 
-- The first version of Shoop BR.
+- The first version of Shuup BR.
