@@ -1,2 +1,2 @@
 [run]
-omit = shoop_br/migrations/*
+omit = shuup_br/migrations/*
