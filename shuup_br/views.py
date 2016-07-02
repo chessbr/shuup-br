@@ -29,7 +29,7 @@ class ShuupBRCheckoutView(DefaultCheckoutView):
     ]
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated() and not settings.SHOOP_ALLOW_ANONYMOUS_ORDERS:
+        if not request.user.is_authenticated() and not settings.SHUUP_ALLOW_ANONYMOUS_ORDERS:
             # FIXME: Django 1.9:
             # return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
             return redirect_to_login(self.request.get_full_path())

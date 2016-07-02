@@ -32,7 +32,7 @@ Configuration
   This is because *Shuup BR* overrides registration URLs as yoy can [see here](shuup_br/urls.py).
 
   ```
-  INSTALLED_APPS = add_enabled_addons(SHOOP_ENABLED_ADDONS_FILE, [
+  INSTALLED_APPS = add_enabled_addons(SHUUP_ENABLED_ADDONS_FILE, [
     # django
     'django.contrib.admin',
     'django.contrib.auth',
@@ -55,13 +55,13 @@ Configuration
 
   ```
   AUTH_USER_MODEL = 'shuup_br.ShuupBRUser'
-  SHOOP_CHECKOUT_VIEW_SPEC = "shuup_br.views:ShuupBRCheckoutView"
-  SHOOP_BASKET_ORDER_CREATOR_SPEC = "shuup_br.checkout.order_creator:ShuupBRBasketOrderCreator"
-  SHOOP_HOME_CURRENCY = 'R$'
+  SHUUP_CHECKOUT_VIEW_SPEC = "shuup_br.views:ShuupBRCheckoutView"
+  SHUUP_BASKET_ORDER_CREATOR_SPEC = "shuup_br.checkout.order_creator:ShuupBRBasketOrderCreator"
+  SHUUP_HOME_CURRENCY = 'R$'
   PARLER_DEFAULT_LANGUAGE_CODE = 'pt-br'
-  SHOOP_ALLOW_ANONYMOUS_ORDERS = False
-  SHOOP_ADDRESS_HOME_COUNTRY = 'BR'
-  SHOOP_REGISTRATION_REQUIRES_ACTIVATION = False
+  SHUUP_ALLOW_ANONYMOUS_ORDERS = False
+  SHUUP_ADDRESS_HOME_COUNTRY = 'BR'
+  SHUUP_REGISTRATION_REQUIRES_ACTIVATION = False
   ```
 
   **Tip**: Disable all unnecessary languages, except `pt_br`.

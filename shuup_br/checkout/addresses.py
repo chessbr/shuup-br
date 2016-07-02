@@ -71,7 +71,7 @@ class AddressForm(forms.ModelForm):
         super(AddressForm, self).__init__(**kwargs)
         if not kwargs.get("instance"):
             # Set default country
-            self.fields["country"].initial = settings.SHOOP_ADDRESS_HOME_COUNTRY
+            self.fields["country"].initial = settings.SHUUP_ADDRESS_HOME_COUNTRY
 
 
 class ExtraMutableAddressForm(forms.ModelForm):

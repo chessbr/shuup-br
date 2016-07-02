@@ -27,10 +27,10 @@ def test_registration_PF(client):
 
     with override_settings(
         AUTH_USER_MODEL = 'shuup_br.ShuupBRUser',
-        SHOOP_REGISTRATION_REQUIRES_ACTIVATION = False,
-        SHOOP_CHECKOUT_VIEW_SPEC = "shuup_br.views:ShuupBRCheckoutView",
+        SHUUP_REGISTRATION_REQUIRES_ACTIVATION = False,
+        SHUUP_CHECKOUT_VIEW_SPEC = "shuup_br.views:ShuupBRCheckoutView",
         PARLER_DEFAULT_LANGUAGE_CODE = 'pt-br',
-        SHOOP_ADDRESS_HOME_COUNTRY = 'BR'
+        SHUUP_ADDRESS_HOME_COUNTRY = 'BR'
     ):
         EMAIL = "email@emailzzzzzzzz.com"
         NAME = "NOME DA PESSOA"
@@ -69,10 +69,10 @@ def test_registration_PJ1(client):
 
     with override_settings(
         AUTH_USER_MODEL = 'shuup_br.ShuupBRUser',
-        SHOOP_REGISTRATION_REQUIRES_ACTIVATION = False,
-        SHOOP_CHECKOUT_VIEW_SPEC = "shuup_br.views:ShuupBRCheckoutView",
+        SHUUP_REGISTRATION_REQUIRES_ACTIVATION = False,
+        SHUUP_CHECKOUT_VIEW_SPEC = "shuup_br.views:ShuupBRCheckoutView",
         PARLER_DEFAULT_LANGUAGE_CODE = 'pt-br',
-        SHOOP_ADDRESS_HOME_COUNTRY = 'BR'
+        SHUUP_ADDRESS_HOME_COUNTRY = 'BR'
     ):
         EMAIL = "email@emailzzzzzzzz.com"
         NAME = "empresa muito legal"
@@ -112,10 +112,10 @@ def test_registration_PJ2(client):
 
     with override_settings(
         AUTH_USER_MODEL = 'shuup_br.ShuupBRUser',
-        SHOOP_REGISTRATION_REQUIRES_ACTIVATION = False,
-        SHOOP_CHECKOUT_VIEW_SPEC = "shuup_br.views:ShuupBRCheckoutView",
+        SHUUP_REGISTRATION_REQUIRES_ACTIVATION = False,
+        SHUUP_CHECKOUT_VIEW_SPEC = "shuup_br.views:ShuupBRCheckoutView",
         PARLER_DEFAULT_LANGUAGE_CODE = 'pt-br',
-        SHOOP_ADDRESS_HOME_COUNTRY = 'BR'
+        SHUUP_ADDRESS_HOME_COUNTRY = 'BR'
     ):
         EMAIL = "email@emailzzzzzzzz.com"
         NAME = "empresa muito legal 2"
@@ -151,10 +151,10 @@ def test_registration_PJ3(client):
 
     with override_settings(
         AUTH_USER_MODEL = 'shuup_br.ShuupBRUser',
-        SHOOP_REGISTRATION_REQUIRES_ACTIVATION = False,
-        SHOOP_CHECKOUT_VIEW_SPEC = "shuup_br.views:ShuupBRCheckoutView",
+        SHUUP_REGISTRATION_REQUIRES_ACTIVATION = False,
+        SHUUP_CHECKOUT_VIEW_SPEC = "shuup_br.views:ShuupBRCheckoutView",
         PARLER_DEFAULT_LANGUAGE_CODE = 'pt-br',
-        SHOOP_ADDRESS_HOME_COUNTRY = 'BR'
+        SHUUP_ADDRESS_HOME_COUNTRY = 'BR'
     ):
         EMAIL = "email@emailzzzzzzzz.com"
         NAME = "empresa muito legal 2"
