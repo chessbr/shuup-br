@@ -7,6 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('shuup', '0001_initial'),
         ('shuup_br', '0001_initial'),
     ]
 
