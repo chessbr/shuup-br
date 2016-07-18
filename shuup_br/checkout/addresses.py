@@ -6,7 +6,6 @@
 #
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
-
 from __future__ import unicode_literals
 
 from shuup_br.models import ExtraMutableAddress, PersonType
@@ -82,7 +81,7 @@ class ExtraMutableAddressForm(forms.ModelForm):
 
 class AddressesPhase(CheckoutPhaseViewMixin, FormView):
     identifier = "addresses"
-    title = _(u"Addresses")
+    title = _("Addresses")
     template_name = "shuup_br/checkout/addresses.jinja"
 
     address_kinds = ("shipping", "shipping_extra", "billing", "billing_extra")
