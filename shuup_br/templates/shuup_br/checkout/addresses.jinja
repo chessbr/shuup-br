@@ -137,8 +137,9 @@
     $('#{{ form.forms.billing.postal_code.id_for_label }}').change(function (){
         var cep = $(this).val();
 
-        $.getJSON("http://viacep.com.br/ws/" + cep + "/json/ ", function(data) {
+        $.getJSON("https://viacep.com.br/ws/" + cep + "/json/ ", function(data) {
             setBillingAddressFromREST(data);
+            $('#{{ form.forms.billing_extra.numero.id_for_label }}').focus();
 
             if($("#same_as_billing").prop("checked")){
                 setShippingAddressFromREST(data);
@@ -148,8 +149,9 @@
 
     $('#{{ form.forms.shipping.postal_code.id_for_label }}').change(function (){
         var cep = $(this).val();
-        $.getJSON("http://viacep.com.br/ws/" + cep + "/json/ ", function(data) {
+        $.getJSON("https://viacep.com.br/ws/" + cep + "/json/ ", function(data) {
             setShippingAddressFromREST(data);
+            $('#{{ form.forms.shipping_extra.numero.id_for_label }}').focus();
         });
     });
 
