@@ -16,14 +16,14 @@ from registration.views import RegistrationView
 from shuup_br.forms import CompanyInfoForm, PersonInfoForm
 from shuup_br.models import PERSON_TYPE_CHOICES, PersonType, ShuupBRUser
 
-from shuup.front.apps.registration.views import RegistrationViewMixin
-
 from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.utils.translation import ugettext_lazy as _
+
+from shuup.front.apps.registration.views import RegistrationViewMixin
 
 
 class ShuupBRRegistrationForm(RegistrationFormUniqueEmail):

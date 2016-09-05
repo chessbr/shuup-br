@@ -10,15 +10,15 @@ from __future__ import unicode_literals
 
 from shuup_br.models import ExtraMutableAddress, PersonType
 
-from shuup.core.models import MutableAddress
-from shuup.front.checkout import CheckoutPhaseViewMixin
-from shuup.utils.form_group import FormGroup
-
 from django import forms
 from django.conf import settings
 from django.forms.models import model_to_dict
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.edit import FormView
+
+from shuup.core.models import MutableAddress
+from shuup.front.checkout import CheckoutPhaseViewMixin
+from shuup.utils.form_group import FormGroup
 
 ESTADOS_CHOICES = (
     ('AC', _('Acre')),

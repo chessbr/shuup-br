@@ -6,10 +6,11 @@
 #
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
+from django.utils.encoding import force_text
+
 from shuup.core.formatters import BaseAddressFormatter
 from shuup.core.models._addresses import Address
 from shuup.utils.i18n import get_current_babel_locale
-from django.utils.encoding import force_text
 
 
 class ShuupBRAddressFormatter(BaseAddressFormatter):

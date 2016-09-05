@@ -12,13 +12,13 @@ from datetime import timedelta
 from shuup_br.base import CNPJ, CPF
 from shuup_br.models import CompanyInfo, PersonInfo, Taxation
 
-from shuup.core.models._contacts import Gender
-
 from django import forms
 from django.utils import formats
 from django.utils.functional import lazy
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
+
+from shuup.core.models._contacts import Gender
 
 
 def get_sample_datetime():

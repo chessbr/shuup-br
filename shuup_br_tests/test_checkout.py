@@ -12,15 +12,15 @@ import pytest
 from shuup_br.models import PersonType
 from shuup_tests.utils import SmartClient
 
+from django.contrib.auth import get_user_model
+from django.core.urlresolvers import reverse
+
 from shuup.core.defaults.order_statuses import create_default_order_statuses
 from shuup.core.models._contacts import Gender
 from shuup.testing.factories import get_default_product, get_default_shop, get_default_supplier
 from shuup.testing.mock_population import populate_if_required
 from shuup.testing.soup_utils import extract_form_fields
 from shuup.xtheme._theme import set_current_theme
-
-from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse
 
 
 @pytest.mark.django_db

@@ -5,6 +5,8 @@ from shuup_br.checkout.order_creator import ShuupBRBasketOrderCreator
 from shuup_br.models import ExtraMutableAddress
 from shuup_tests.utils.basketish_order_source import BasketishOrderSource
 
+from django.contrib.auth import get_user_model
+
 from shuup.core.models import get_person_contact, Order, OrderLineType, Shop
 from shuup.core.order_creator import OrderSource, SourceLine
 from shuup.testing.factories import (
@@ -12,8 +14,6 @@ from shuup.testing.factories import (
     get_default_shop, get_default_supplier, get_initial_order_status
 )
 from shuup.utils.models import get_data_dict
-
-from django.contrib.auth import get_user_model
 
 EXTRA_MUTABLE_ADDRESS_1 = dict(numero="123", cel="88888888", ponto_ref="prox escola")
 EXTRA_MUTABLE_ADDRESS_2 = dict(numero="456", cel="55555555", ponto_ref="prox presidio")
