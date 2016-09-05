@@ -80,7 +80,7 @@
 {% endblock %}
 
 {% block extrajs %}
-<script src="{{ STATIC_URL }}shuup_br/js/jquery.mask.min.js"></script>
+<script src="{{ static("shuup_br/js/jquery.mask.min.js") }}"></script>
 <script>
     $(function(){
         $("#{{ form.forms.billing.phone.id_for_label }}").mask('(00)0000-00000', {selectOnFocus: true, placeholder:"(99)9999-99999"});

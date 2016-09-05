@@ -1,5 +1,5 @@
 {% extends "shuup/front/base.jinja" %}
-{% from "shuup/front/macros.jinja" import render_field %}
+{% from "shuup/front/macros/general.jinja" import render_field %}
 
 {% block title %}{% trans %}Register{% endtrans %}{% endblock %}
 
@@ -57,7 +57,7 @@
 
 {% block extrajs %}
 
-<script src="{{ STATIC_URL }}shuup_br/js/jquery.mask.min.js"></script>
+<script src="{{ static("shuup_br/js/jquery.mask.min.js") }}"></script>
 <script>
     $(function(){
         $("#{{ person_info_form.cpf.id_for_label }}").mask('000.000.000-00');
