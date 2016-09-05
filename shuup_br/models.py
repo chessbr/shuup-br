@@ -22,7 +22,6 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.db import models
 from django.utils import timezone
-from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -193,19 +192,6 @@ class ExtraAddress(models.Model):
     numero = models.CharField(verbose_name=_("Número"), max_length=20)
     cel = models.CharField(verbose_name=_("Telefone celular"), max_length=40, blank=True, null=True)
     ponto_ref = models.CharField(verbose_name=_("Ponto de referência"), max_length=60, blank=True, null=True)
-
-    def as_string_list(self, locale=None):
-        base_lines = [
-            self.numero,
-            self.cel,
-            self.ponto_ref,
-        ]
-
-        stripped_lines = [force_text(line).strip() for line in base_lines if line]
-        return [s for s in stripped_lines if (s and len(s) > 1)]
-
-    def __iter__(self):
-        return iter(self.as_string_list())
 
     class Meta:
         abstract = True
