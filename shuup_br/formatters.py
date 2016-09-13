@@ -8,7 +8,7 @@
 # LICENSE file in the root directory of this source tree.
 from django.utils.encoding import force_text
 
-from shuup.core.formatters import BaseAddressFormatter
+from shuup.core.utils.formatters import BaseAddressFormatter
 from shuup.core.models._addresses import Address
 from shuup.utils.i18n import get_current_babel_locale
 
@@ -25,13 +25,11 @@ class ShuupBRAddressFormatter(BaseAddressFormatter):
             address.company_name,
             address.full_name,
             address.name_ext,
-            address.street,
-            address.extra.numero,
+            "{0}, {1}".format(address.street, address.extra.numero),
             address.street2,
-            address.street3,
             address.extra.ponto_ref,
-            "%s %s %s" % (address.region_code, address.postal_code, address.city),
-            address.region,
+            address.postal_code,
+            "{0} {1}".format(address.city, address.region or address.region_code),
             locale.territories.get(country, country) if not address.is_home else None
         ]
 

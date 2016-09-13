@@ -101,14 +101,43 @@ class ShuupBRUser(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _('users')
 
     def get_full_name(self):
-        """
-        Returns the email
-        """
+        if self.person_type == PersonType.FISICA:
+            if hasattr(self, 'pf_person'):
+                return self.pf_person.name
+        else:
+            if hasattr(self, 'pj_person'):
+                return self.pj_person.name
+
         return self.email.strip()
 
     def get_short_name(self):
-        "Returns the short name for the user."
-        return self.email
+        return self.get_full_name()
+
+    def setattr(self, name, value):
+        if not name in ("first_name", "last_name"):
+            super(ShuupBRUser, self).setattr(name, value)
+
+    @property
+    def first_name(self):
+        full_name = self.get_full_name()
+        if full_name:
+            names = full_name.split()
+            return "".join(names[:1])
+
+    @first_name.setter
+    def first_name(self, value):
+        pass
+
+    @property
+    def last_name(self):
+        full_name = self.get_full_name()
+        if full_name:
+            names = full_name.split()
+            return " ".join(names[1:])
+
+    @last_name.setter
+    def last_name(self, value):
+        pass
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         """

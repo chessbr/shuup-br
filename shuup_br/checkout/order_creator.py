@@ -14,11 +14,12 @@ class ShuupBRBasketOrderCreator(BasketOrderCreator):
     """ Processo customizado para criar o pedido.
         Vamos aqui apenas salvar o endereço 'extra' que criamos
     """
-    def create_order(self, order_source):
+
+    def finalize_creation(self, order, order_source):
         extra_billing_address = order_source.billing_address.extra if order_source.billing_address and hasattr(order_source.billing_address, 'extra') else None
         extra_shipping_address = order_source.shipping_address.extra if order_source.shipping_address and hasattr(order_source.shipping_address, 'extra') else None
 
-        order = super(ShuupBRBasketOrderCreator, self).create_order(order_source)
+        order = super(ShuupBRBasketOrderCreator, self).finalize_creation(order, order_source)
 
         if extra_billing_address and order.billing_address and not hasattr(order.billing_address, 'extra'):
             immutable_extra_billing_address = extra_billing_address.to_immutable()
