@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 import pytest
 
 from shuup_br.models import (
-    CompanyInfo, ExtraImmutableAddress, ExtraMutableAddress, PersonInfo, ShuupBRUser, validate_cnpj,
+    ExtraImmutableAddress, ExtraMutableAddress, ShuupBRUser, validate_cnpj,
     validate_cpf
 )
 
@@ -31,7 +31,7 @@ def test_extra_immutable_address():
     assert addr.numero == '321'
     assert addr.cel == '1234567890'
     assert addr.ponto_ref == 'ref1'
-    s = str(addr)
+    str(addr)
 
 
 @pytest.mark.django_db
@@ -45,10 +45,10 @@ def test_extra_mutable_address():
     assert addr.numero == '321'
     assert addr.cel == '1234567890'
     assert addr.ponto_ref == 'ref1'
-    s = str(addr)
+    str(addr)
 
     immut_addr = addr.to_immutable()
-    s = str(immut_addr)
+    str(immut_addr)
     assert isinstance(immut_addr, ExtraImmutableAddress)
     assert immut_addr.numero == '321'
     assert immut_addr.cel == '1234567890'

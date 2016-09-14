@@ -22,9 +22,7 @@ class ShuupBRAddressFormatter(BaseAddressFormatter):
         country = address.country.code.upper()
 
         base_lines = [
-            address.company_name,
             address.full_name,
-            address.name_ext,
             "{0}, {1}".format(address.street, address.extra.numero),
             address.street2,
             address.extra.ponto_ref,

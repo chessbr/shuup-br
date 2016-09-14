@@ -18,12 +18,14 @@ from django.test.utils import override_settings
 from shuup.core.models._contacts import Gender
 from shuup.testing.factories import get_default_shop
 from shuup.xtheme._theme import set_current_theme
+from shuup.utils.importing import clear_load_cache
 
 
 @pytest.mark.django_db
 def test_registration_PF(client):
     get_default_shop()
     set_current_theme('shuup.themes.classic_gray')
+    clear_load_cache()
 
     with override_settings(
         AUTH_USER_MODEL = 'shuup_br.ShuupBRUser',
@@ -66,6 +68,7 @@ def test_registration_PF(client):
 def test_registration_PJ1(client):
     get_default_shop()
     set_current_theme('shuup.themes.classic_gray')
+    clear_load_cache()
 
     with override_settings(
         AUTH_USER_MODEL = 'shuup_br.ShuupBRUser',
@@ -109,6 +112,7 @@ def test_registration_PJ1(client):
 def test_registration_PJ2(client):
     get_default_shop()
     set_current_theme('shuup.themes.classic_gray')
+    clear_load_cache()
 
     with override_settings(
         AUTH_USER_MODEL = 'shuup_br.ShuupBRUser',
@@ -148,6 +152,7 @@ def test_registration_PJ2(client):
 def test_registration_PJ3(client):
     get_default_shop()
     set_current_theme('shuup.themes.classic_gray')
+    clear_load_cache()
 
     with override_settings(
         AUTH_USER_MODEL = 'shuup_br.ShuupBRUser',
