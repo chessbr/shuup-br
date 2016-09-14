@@ -21,7 +21,7 @@ class ShuupBRCheckoutView(DefaultCheckoutView):
     """
 
     phase_specs = [
-        "shuup_br.checkout.addresses:AddressesPhase",
+        "shuup_br.checkout.addresses:ShuupBRAddressesPhase",
         "shuup.front.checkout.methods:MethodsPhase",
         "shuup.front.checkout.methods:ShippingMethodPhase",
         "shuup.front.checkout.methods:PaymentMethodPhase",

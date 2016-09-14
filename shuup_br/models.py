@@ -25,6 +25,37 @@ from shuup.core.models._addresses import ImmutableAddress, MutableAddress
 from shuup.core.models._contacts import Gender
 
 
+ESTADOS_CHOICES = (
+    ('AC', _('Acre')),
+    ('AL', _('Alagoas')),
+    ('AP', _('Amapá')),
+    ('AM', _('Amazonas')),
+    ('BA', _('Bahia')),
+    ('CE', _('Ceará')),
+    ('DF', _('Distrito Federal')),
+    ('ES', _('Espírito Santo')),
+    ('GO', _('Goiás')),
+    ('MA', _('Maranhão')),
+    ('MT', _('Mato Grosso')),
+    ('MS', _('Mato Grosso do Sul')),
+    ('MG', _('Minas Gerais')),
+    ('PA', _('Pará')),
+    ('PB', _('Paraíba')),
+    ('PR', _('Paraná')),
+    ('PE', _('Pernambuco')),
+    ('PI', _('Piauí')),
+    ('RJ', _('Rio de Janeiro')),
+    ('RN', _('Rio Grande do Norte')),
+    ('RS', _('Rio Grande do Sul')),
+    ('RO', _('Rondônia')),
+    ('RR', _('Roraima')),
+    ('SC', _('Santa Catarina')),
+    ('SP', _('São Paulo')),
+    ('SE', _('Sergipe')),
+    ('TO', _('Tocantins')),
+)
+
+
 class PersonType(Enum):
     FISICA = 'PF'
     JURIDICA = 'PJ'
@@ -112,32 +143,6 @@ class ShuupBRUser(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.get_full_name()
-
-    def setattr(self, name, value):
-        if not name in ("first_name", "last_name"):
-            super(ShuupBRUser, self).setattr(name, value)
-
-    @property
-    def first_name(self):
-        full_name = self.get_full_name()
-        if full_name:
-            names = full_name.split()
-            return "".join(names[:1])
-
-    @first_name.setter
-    def first_name(self, value):
-        pass
-
-    @property
-    def last_name(self):
-        full_name = self.get_full_name()
-        if full_name:
-            names = full_name.split()
-            return " ".join(names[1:])
-
-    @last_name.setter
-    def last_name(self, value):
-        pass
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         """

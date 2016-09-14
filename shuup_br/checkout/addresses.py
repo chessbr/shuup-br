@@ -8,47 +8,16 @@
 # LICENSE file in the root directory of this source tree.
 from __future__ import unicode_literals
 
-from shuup_br.models import ExtraMutableAddress, PersonType
+from shuup_br.models import ExtraMutableAddress, ESTADOS_CHOICES
 
 from django import forms
 from django.conf import settings
 from django.forms.models import model_to_dict
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic.edit import FormView
 
 from shuup.core.models import MutableAddress
-from shuup.front.checkout import CheckoutPhaseViewMixin
 from shuup.utils.form_group import FormGroup
-
-ESTADOS_CHOICES = (
-    ('AC', _('Acre')),
-    ('AL', _('Alagoas')),
-    ('AP', _('Amapá')),
-    ('AM', _('Amazonas')),
-    ('BA', _('Bahia')),
-    ('CE', _('Ceará')),
-    ('DF', _('Distrito Federal')),
-    ('ES', _('Espírito Santo')),
-    ('GO', _('Goiás')),
-    ('MA', _('Maranhão')),
-    ('MT', _('Mato Grosso')),
-    ('MS', _('Mato Grosso do Sul')),
-    ('MG', _('Minas Gerais')),
-    ('PA', _('Pará')),
-    ('PB', _('Paraíba')),
-    ('PR', _('Paraná')),
-    ('PE', _('Pernambuco')),
-    ('PI', _('Piauí')),
-    ('RJ', _('Rio de Janeiro')),
-    ('RN', _('Rio Grande do Norte')),
-    ('RS', _('Rio Grande do Sul')),
-    ('RO', _('Rondônia')),
-    ('RR', _('Roraima')),
-    ('SC', _('Santa Catarina')),
-    ('SP', _('São Paulo')),
-    ('SE', _('Sergipe')),
-    ('TO', _('Tocantins')),
-)
+from shuup.front.checkout.addresses import AddressesPhase
 
 
 class AddressForm(forms.ModelForm):
@@ -79,7 +48,7 @@ class ExtraMutableAddressForm(forms.ModelForm):
         fields = ("numero", "cel", "ponto_ref")
 
 
-class AddressesPhase(CheckoutPhaseViewMixin, FormView):
+class ShuupBRAddressesPhase(AddressesPhase):
     identifier = "addresses"
     title = _("Addresses")
     template_name = "shuup_br/checkout/addresses.jinja"
@@ -102,21 +71,34 @@ class AddressesPhase(CheckoutPhaseViewMixin, FormView):
 
     def get_initial(self):
         initial = super(AddressesPhase, self).get_initial()
+        customer = self.request.basket.customer
         for address_kind in self.address_kinds:
             if self.storage.get(address_kind):
-                for key, value in model_to_dict(self.storage[address_kind]).items():
+                address = self.storage.get(address_kind)
+            elif customer:
+                address = self._get_address_of_contact(customer, address_kind)
+            else:
+                address = None
+
+            if address:
+                for (key, value) in model_to_dict(address).items():
                     initial["%s-%s" % (address_kind, key)] = value
 
-            # Coloca o nome da PF ou da PJ nos campos Destinatário dos forms
-            elif address_kind in ('shipping', 'billing'):
-                if self.request.user.person_type == PersonType.JURIDICA:
-                    if hasattr(self.request.user, 'pj_person'):
-                        initial["{0}-name".format(address_kind)] = self.request.user.pj_person.name
-                else:
-                    if hasattr(self.request.user, 'pf_person'):
-                        initial["{0}-name".format(address_kind)] = self.request.user.pf_person.name
-
         return initial
+    
+    def _get_address_of_contact(self, contact, kind):
+        if kind == 'billing':
+            return contact.default_billing_address
+        elif kind == 'billing_extra':
+            if hasattr(contact.default_billing_address, 'extra'):
+                return contact.default_billing_address.extra
+        elif kind == 'shipping':
+            return contact.default_shipping_address
+        elif kind == 'shipping_extra':
+            if hasattr(contact.default_shipping_address, 'extra'):
+                return contact.default_shipping_address.extra
+
+        return {}
 
     def is_valid(self):
         return self.storage.has_all(self.address_kinds)
