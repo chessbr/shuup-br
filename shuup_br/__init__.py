@@ -12,7 +12,7 @@ import shuup.apps
 
 class ShuupBRAppConfig(shuup.apps.AppConfig):
     name = __name__
-    verbose_name = "Shuup BR store"
+    verbose_name = "Shuup BR"
     label = "shuup_br"
 
     required_installed_apps = {
@@ -23,6 +23,9 @@ class ShuupBRAppConfig(shuup.apps.AppConfig):
         "front_urls_pre": [
             __name__ + ".urls:urlpatterns"
         ],
+        "admin_order_section": [
+             "shuup_br.admin.order_section:ShuupBROrderSection"
+        ]
     }
 
 default_app_config = __name__ + ".ShuupBRAppConfig"

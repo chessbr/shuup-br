@@ -8,7 +8,7 @@
 # LICENSE file in the root directory of this source tree.
 from __future__ import unicode_literals
 
-from shuup_br.models import ExtraMutableAddress, ESTADOS_CHOICES
+from shuup_br.models import ExtraMutableAddress, ESTADOS_CHOICES, PersonType
 
 from django import forms
 from django.conf import settings
@@ -84,8 +84,16 @@ class ShuupBRAddressesPhase(AddressesPhase):
                 for (key, value) in model_to_dict(address).items():
                     initial["%s-%s" % (address_kind, key)] = value
 
+            if address_kind in ('shipping', 'billing'):
+                if self.request.user.person_type == PersonType.JURIDICA:
+                    if hasattr(self.request.user, 'pj_person'):
+                        initial["{0}-name".format(address_kind)] = self.request.user.pj_person.name
+                else:
+                    if hasattr(self.request.user, 'pf_person'):
+                        initial["{0}-name".format(address_kind)] = self.request.user.pf_person.name
+
         return initial
-    
+
     def _get_address_of_contact(self, contact, kind):
         if kind == 'billing':
             return contact.default_billing_address

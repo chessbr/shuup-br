@@ -1,0 +1,46 @@
+<dl class="dl-horizontal">
+    {% if order.customer.user.pf_person %}
+
+    <dt>Nome</dt>
+    <dd>{{ order.customer.user.pf_person.name }}</dd>
+
+    <dt>CPF</dt>
+    <dd>{{ order.customer.user.pf_person.cpf }}</dd>
+
+    <dt>RG</dt>
+    <dd>{{ order.customer.user.pf_person.rg }}</dd>
+
+    <dt>Data nascimento</dt>
+    <dd>{{ order.customer.user.pf_person.birth_date|datetime(format='short') }}</dd>
+
+    <dt>Sexo</dt>
+    <dd>{{ order.customer.user.pf_person.gender }}</dd>
+
+    {% elif order.customer.user.pj_person %}
+
+    <dt>Nome</dt>
+    <dd>{{ order.customer.user.pj_person.name }}</dd>
+
+    <dt>CNPJ</dt>
+    <dd>{{ order.customer.user.pj_person.cnpj }}</dd>
+
+    <dt>Inscrição Estadual</dt>
+    <dd>{{ order.customer.user.pj_person.ie }}</dd>
+
+    <dt>Inscrição Municipal</dt>
+    <dd>{{ order.customer.user.pj_person.im }}</dd>
+
+    <dt>Tributação</dt>
+    <dd>{{ order.customer.user.pj_person.taxation }}</dd>
+
+    <dt>Responsável</dt>
+    <dd>{{ order.customer.user.pj_person.responsible }}</dd>
+
+    {% else %}
+
+    <dt></dt>
+    <dd>Sem informações</dd>
+
+    {% endif %}
+
+</dl>
