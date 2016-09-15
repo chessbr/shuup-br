@@ -57,6 +57,7 @@ class RegistrationView(RegistrationViewMixin, RegistrationView):
 
     form_class = ShuupBRRegistrationForm
     template_name = "shuup_br/registration/register.jinja"
+    disallowed_url = "shuup:index"
 
     def register(self, form):
         new_user = form.save()
@@ -152,4 +153,4 @@ class RegistrationView(RegistrationViewMixin, RegistrationView):
         return super(RegistrationView, self).get_context_data(**kwargs)
 
     def registration_allowed(self):
-        return True
+        return not self.request.user.is_authenticated()
