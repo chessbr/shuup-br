@@ -66,14 +66,11 @@ class ShuupBRMutableAddressForm(MutableAddressForm):
 
         if commit:
             extra_addr = ExtraMutableAddress.objects.get_or_create(address=instance)[0]
-        else:
-            extra_addr = ExtraMutableAddress(address=instance)
-
-        extra_addr.numero = self.cleaned_data['numero']
-        extra_addr.cel = self.cleaned_data['cel']
-        extra_addr.ponto_ref = self.cleaned_data['ponto_ref']
-        extra_addr.full_clean()
-        extra_addr.save()
+            extra_addr.numero = self.cleaned_data['numero']
+            extra_addr.cel = self.cleaned_data['cel']
+            extra_addr.ponto_ref = self.cleaned_data['ponto_ref']
+            extra_addr.full_clean()
+            extra_addr.save()
 
         return instance
 
