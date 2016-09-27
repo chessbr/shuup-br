@@ -104,7 +104,6 @@ class PersonInfoForm(forms.ModelForm):
 
 
 class CompanyInfoForm(forms.ModelForm):
-    prefix = 'company'
 
     class Meta:
         model = CompanyInfo

@@ -33,7 +33,7 @@ def test_company_form_1():
         'taxation': Taxation.ICMS.value,
         'responsible': 'meramente resposavel'
     })
-    assert cif.is_valid()
+    assert cif.is_valid() == True
     assert not cif.cleaned_data['ie'] in ('ISENTO', '')
 
 def test_company_form_2():
@@ -45,7 +45,7 @@ def test_company_form_2():
         'taxation': Taxation.ISENTO.value,
         'responsible': 'meramente resposavel'
     })
-    assert cif.is_valid()
+    assert cif.is_valid() == True
     assert cif.cleaned_data['ie'] == 'ISENTO'
 
 def test_company_form_3():
@@ -57,5 +57,5 @@ def test_company_form_3():
         'taxation': Taxation.NAO_CONTRIBUINTE.value,
         'responsible': 'meramente resposavel'
     })
-    assert cif.is_valid()
+    assert cif.is_valid() == True
     assert cif.cleaned_data['ie'] == ''
