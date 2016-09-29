@@ -25,6 +25,14 @@ from shuup.core.models._addresses import MutableAddress
 from django.forms.models import model_to_dict
 
 
+def get_date_format():
+    return formats.get_format_lazy('DATE_INPUT_FORMATS')[0]\
+        .replace("%Y", "0000")\
+        .replace("%y", "0000")\
+        .replace("%d", "00")\
+        .replace("%m", "00")
+
+
 def get_sample_datetime():
     return (now()-timedelta(days=365*30)).strftime(formats.get_format_lazy('DATE_INPUT_FORMATS')[0])
 
@@ -81,7 +89,8 @@ class PersonInfoForm(forms.ModelForm):
         model = PersonInfo
         fields = ['name', 'cpf', 'rg', 'birth_date', 'gender']
         widgets = {
-            'birth_date': forms.DateInput(attrs={'placeholder': lazy(get_sample_datetime, str)()}),
+            'birth_date': forms.DateInput(attrs={'placeholder': lazy(get_sample_datetime, str)(),
+                                                 'data-mask': lazy(get_date_format, str)()}),
         }
         localized_fields = ('birth_date',)
         prefix = 'person'
