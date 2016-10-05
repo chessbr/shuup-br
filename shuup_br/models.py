@@ -198,6 +198,9 @@ class PersonInfo(models.Model):
     def __str__(self):
         return "Pessoa fisica: {0}".format(self.name)
 
+    def clean(self):
+        self.cpf = "".join([d for d in self.cpf if d.isdigit()])
+
 
 class CompanyInfo(models.Model):
     """ Pessoa jurídica """
@@ -219,6 +222,9 @@ class CompanyInfo(models.Model):
 
     def __str__(self):
         return "Pessoa juridica: {0}".format(self.name)
+
+    def clean(self):
+        self.cnpj = "".join([d for d in self.cnpj if d.isdigit()])
 
 
 class ExtraAddress(models.Model):
