@@ -6,13 +6,16 @@
 #
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
-from django.test.utils import override_settings
-from shuup_br.models import ExtraMutableAddress
 import pytest
+
+from shuup_br.models import ExtraMutableAddress
+
 from shuup.core.models._addresses import MutableAddress
 from shuup.testing.factories import get_default_shop
-from shuup.xtheme._theme import set_current_theme
 from shuup.utils.importing import clear_load_cache
+from shuup.xtheme._theme import set_current_theme
+
+from django.test.utils import override_settings
 
 
 @pytest.mark.django_db

@@ -12,6 +12,10 @@ from __future__ import unicode_literals
 from enumfields import Enum, EnumField
 
 from shuup_br.base import CNPJ, CPF
+from shuup_br.utils import get_only_digits
+
+from shuup.core.models._addresses import ImmutableAddress, MutableAddress
+from shuup.core.models._contacts import Gender
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -20,10 +24,6 @@ from django.core.mail import send_mail
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-
-from shuup.core.models._addresses import ImmutableAddress, MutableAddress
-from shuup.core.models._contacts import Gender
-
 
 ESTADOS_CHOICES = (
     ('AC', _('Acre')),
@@ -199,7 +199,7 @@ class PersonInfo(models.Model):
         return "Pessoa fisica: {0}".format(self.name)
 
     def clean(self):
-        self.cpf = "".join([d for d in self.cpf if d.isdigit()])
+        self.cpf = get_only_digits(self.cpf)
 
 
 class CompanyInfo(models.Model):
@@ -224,7 +224,7 @@ class CompanyInfo(models.Model):
         return "Pessoa juridica: {0}".format(self.name)
 
     def clean(self):
-        self.cnpj = "".join([d for d in self.cnpj if d.isdigit()])
+        self.cnpj = get_only_digits(self.cnpj)
 
 
 class ExtraAddress(models.Model):

@@ -7,9 +7,11 @@
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
 
-from shuup.admin.base import OrderSection
-from django.utils.translation import ugettext_lazy as _
 from shuup_br.models import PersonType
+
+from shuup.admin.base import OrderSection
+
+from django.utils.translation import ugettext_lazy as _
 
 
 class ShuupBROrderSection(OrderSection):

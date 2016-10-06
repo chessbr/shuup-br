@@ -7,10 +7,10 @@
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
 
+from shuup.front.views.checkout import DefaultCheckoutView
+
 from django.conf import settings
 from django.contrib.auth.views import redirect_to_login
-
-from shuup.front.views.checkout import DefaultCheckoutView
 
 
 class ShuupBRCheckoutView(DefaultCheckoutView):

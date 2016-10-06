@@ -8,21 +8,23 @@
 # LICENSE file in the root directory of this source tree.
 from __future__ import unicode_literals
 
-from shuup_br.models import ExtraMutableAddress, ESTADOS_CHOICES, PersonType
+from shuup_br.forms import OptionalPhoneValidator, PhoneValidator
+from shuup_br.models import ESTADOS_CHOICES, ExtraMutableAddress, PersonType
+
+from shuup.core.models import MutableAddress
+from shuup.front.checkout.addresses import AddressesPhase
+from shuup.utils.form_group import FormGroup
 
 from django import forms
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.forms.models import model_to_dict
 from django.utils.translation import ugettext_lazy as _
-
-from shuup.core.models import MutableAddress
-from shuup.utils.form_group import FormGroup
-from shuup.front.checkout.addresses import AddressesPhase
 
 
 class AddressForm(forms.ModelForm):
     name = forms.CharField(label=_('Destinatário'))
-    phone = forms.CharField(label=_('Telefone'), required=True)
+    phone = forms.CharField(label=_('Telefone'), required=True, validators=[PhoneValidator])
     postal_code = forms.CharField(label=_('CEP'), required=True)
     street2 = forms.CharField(label=_('Complemento'), required=False)
     street3 = forms.CharField(label=_('Bairro'), required=True)
@@ -30,7 +32,8 @@ class AddressForm(forms.ModelForm):
 
     class Meta:
         model = MutableAddress
-        fields = ("name", "phone", "postal_code", "street", "street2", "street3", "city", "region", "country")
+        fields = ("name", "phone", "postal_code", "street",
+                  "street2", "street3", "city", "region", "country")
         widgets = {
             'country': forms.HiddenInput(),
         }
@@ -41,6 +44,8 @@ class AddressForm(forms.ModelForm):
 
 
 class ExtraMutableAddressForm(forms.ModelForm):
+    cel = forms.CharField(label=_('Celular'), required=False, validators=[OptionalPhoneValidator])
+
     class Meta:
         model = ExtraMutableAddress
         fields = ("numero", "cel", "ponto_ref")

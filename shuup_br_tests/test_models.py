@@ -12,8 +12,7 @@ from __future__ import unicode_literals
 import pytest
 
 from shuup_br.models import (
-    ExtraImmutableAddress, ExtraMutableAddress, ShuupBRUser, validate_cnpj,
-    validate_cpf
+    ExtraImmutableAddress, ExtraMutableAddress, ShuupBRUser, validate_cnpj, validate_cpf
 )
 
 from django.core.exceptions import ValidationError
@@ -24,12 +23,12 @@ from django.test import override_settings
 def test_extra_immutable_address():
     addr = ExtraImmutableAddress.from_data({
         'numero': '321',
-        'cel': '1234567890',
+        'cel': '32 32112-9912',
         'ponto_ref': 'ref1'
     })
 
     assert addr.numero == '321'
-    assert addr.cel == '1234567890'
+    assert addr.cel == '32 32112-9912'
     assert addr.ponto_ref == 'ref1'
     str(addr)
 
@@ -38,12 +37,12 @@ def test_extra_immutable_address():
 def test_extra_mutable_address():
     addr = ExtraMutableAddress.from_data({
         'numero': '321',
-        'cel': '1234567890',
+        'cel': '92 3213-1323',
         'ponto_ref': 'ref1'
     })
 
     assert addr.numero == '321'
-    assert addr.cel == '1234567890'
+    assert addr.cel == '92 3213-1323'
     assert addr.ponto_ref == 'ref1'
     str(addr)
 
@@ -51,7 +50,7 @@ def test_extra_mutable_address():
     str(immut_addr)
     assert isinstance(immut_addr, ExtraImmutableAddress)
     assert immut_addr.numero == '321'
-    assert immut_addr.cel == '1234567890'
+    assert immut_addr.cel == '92 3213-1323'
     assert immut_addr.ponto_ref == 'ref1'
 
 

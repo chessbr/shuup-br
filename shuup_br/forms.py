@@ -7,22 +7,20 @@
 # This source code is licensed under the AGPLv3 license found in the
 # LICENSE file in the root directory of this source tree.
 
-from datetime import timedelta
-
 from shuup_br.base import CNPJ, CPF
-from shuup_br.models import CompanyInfo, PersonInfo, Taxation,\
-    ExtraMutableAddress, ESTADOS_CHOICES
+from shuup_br.models import CompanyInfo, ESTADOS_CHOICES, ExtraMutableAddress, PersonInfo, Taxation
+from shuup_br.utils import get_only_digits, get_sample_datetime
 
-from django import forms
-from django.utils import formats
-from django.utils.functional import lazy
-from django.utils.timezone import now
-from django.utils.translation import ugettext_lazy as _
-
+from shuup.core.models._addresses import MutableAddress
 from shuup.core.models._contacts import Gender
 from shuup.core.utils.forms import MutableAddressForm
-from shuup.core.models._addresses import MutableAddress
+
+from django import forms
+from django.core.exceptions import ValidationError
 from django.forms.models import model_to_dict
+from django.utils import formats
+from django.utils.functional import lazy
+from django.utils.translation import ugettext_lazy as _
 
 
 def get_date_format():
@@ -33,19 +31,28 @@ def get_date_format():
         .replace("%m", "00")
 
 
-def get_sample_datetime():
-    return (now()-timedelta(days=365*30)).strftime(formats.get_format_lazy('DATE_INPUT_FORMATS')[0])
+def PhoneValidator(phone):
+    length = len(get_only_digits(phone))
+
+    # 8 ou 9 digitos com dd
+    if not 10 <= length <= 11:
+        raise ValidationError(_("Invalid phone number"))
+
+
+def OptionalPhoneValidator(phone):
+    if phone:
+        PhoneValidator(phone)
 
 
 class ShuupBRMutableAddressForm(MutableAddressForm):
     name = forms.CharField(label=_('Destinatário'))
-    phone = forms.CharField(label=_('Telefone'), required=True)
+    phone = forms.CharField(label=_('Telefone'), required=True, validators=[PhoneValidator])
     postal_code = forms.CharField(label=_('CEP'), required=True)
     street2 = forms.CharField(label=_('Complemento'), required=False)
     street3 = forms.CharField(label=_('Bairro'), required=True)
     region = forms.ChoiceField(label=_('Estado'), required=True, choices=ESTADOS_CHOICES)
     numero = forms.CharField(label=_('Número'), required=True)
-    cel = forms.CharField(label=_('Celular'), required=False)
+    cel = forms.CharField(label=_('Celular'), required=False, validators=[OptionalPhoneValidator])
     ponto_ref = forms.CharField(label=_('Ponto de referência'), required=False)
 
     class Meta:

@@ -11,14 +11,14 @@ import pytest
 
 from shuup_br.models import PersonType, Taxation
 
+from shuup.core.models._contacts import Gender
+from shuup.testing.factories import get_default_shop
+from shuup.utils.importing import clear_load_cache
+from shuup.xtheme._theme import set_current_theme
+
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
-
-from shuup.core.models._contacts import Gender
-from shuup.testing.factories import get_default_shop
-from shuup.xtheme._theme import set_current_theme
-from shuup.utils.importing import clear_load_cache
 
 
 @pytest.mark.django_db

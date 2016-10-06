@@ -12,15 +12,15 @@ import pytest
 from shuup_br.models import PersonType
 from shuup_tests.utils import SmartClient
 
-from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse
-
 from shuup.core.defaults.order_statuses import create_default_order_statuses
 from shuup.core.models._contacts import Gender
 from shuup.testing.factories import get_default_product, get_default_shop, get_default_supplier
 from shuup.testing.mock_population import populate_if_required
 from shuup.testing.soup_utils import extract_form_fields
 from shuup.xtheme._theme import set_current_theme
+
+from django.contrib.auth import get_user_model
+from django.core.urlresolvers import reverse
 
 
 @pytest.mark.django_db
@@ -39,7 +39,7 @@ def test_checkout_with_success():
         "password2": "password",
         "person_type": PersonType.FISICA.value,
         "PF-name": "NOME DA PESSOA",
-        "PF-cpf": "01234567890",
+        "PF-cpf": "012.345.678-90",
         "PF-rg": "312321",
         "PF-birth_date": "03/28/1954",
         "PF-gender": Gender.MALE.value
@@ -71,13 +71,13 @@ def test_checkout_with_success():
         'billing-street': 'rua billing',
         'billing-street2': 'apto',
         'billing-street3': 'bairro outrem',
-        'billing-postal_code': '89090200',
+        'billing-postal_code': '89090-200',
         'billing-city': 'plumenau',
         'billing-region': 'PR',
         'billing-country': 'BR',
-        'billing-phone': '13323332',
+        'billing-phone': '41 2332-0213',
         'billing_extra-numero': '563',
-        'billing_extra-cel': '8431-4345',
+        'billing_extra-cel': '13 98431-4345',
         'billing_extra-ponto_ref': 'longe de tudo',
 
         'shipping-name': 'joao da silva',
@@ -88,9 +88,9 @@ def test_checkout_with_success():
         'shipping-city': 'indaial',
         'shipping-region': 'SC',
         'shipping-country': 'BR',
-        'shipping-phone': '99992332',
+        'shipping-phone': '39 9999-2332',
         'shipping_extra-numero': '323',
-        'shipping_extra-cel': '4444-3333',
+        'shipping_extra-cel': '21 4444-3333',
         'shipping_extra-ponto_ref': 'proximo posto',
     }
 
