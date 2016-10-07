@@ -19,7 +19,7 @@ This module adds the following features to your Shuup:
 * Custom `CheckoutView` that forces user registration before checking out
 
 ## Compatibility
-* Shuup v0.4.0
+* Shuup v0.5.0
 * [Tested on Python 2.7, 3.4 and 3.5](https://travis-ci.org/rockho-team/shuup-br)
 
 
@@ -40,10 +40,10 @@ Configuration
     'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
-    
+
     # Shuup BR
     'shuup_br',
-    
+
     # shuup themes
     'shuup.themes.classic_gray',
     # shuup
