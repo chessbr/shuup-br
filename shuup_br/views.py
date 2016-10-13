@@ -11,9 +11,10 @@ from shuup.front.views.checkout import DefaultCheckoutView
 
 from django.conf import settings
 from django.contrib.auth.views import redirect_to_login
+from django.contrib.auth.mixins import AccessMixin
 
 
-class ShuupBRCheckoutView(DefaultCheckoutView):
+class ShuupBRCheckoutView(DefaultCheckoutView, AccessMixin):
     """
     View de checkout que precisa de um usuário
     registrado antes de iniciar o processo de checkout.
@@ -30,8 +31,6 @@ class ShuupBRCheckoutView(DefaultCheckoutView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated() and not settings.SHUUP_ALLOW_ANONYMOUS_ORDERS:
-            # FIXME: Django 1.9:
-            # return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
-            return redirect_to_login(self.request.get_full_path())
+            return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
 
         return super(ShuupBRCheckoutView, self).dispatch(request, *args, **kwargs)
